@@ -5,7 +5,8 @@ class Book < ActiveRecord::Base
 	scope :finished, -> { where.not(finished_on: nil) }
 	scope :recent, -> { where('finished_on > ?', 2.days.ago) }
 	scope :search, -> (keyword){where('keyword LIKE ?', "%#{keyword.downcase}%") if keyword.present? }
-
+	scope :filter, ->(name) { joins(:genres).where('genres.name = ?', name) if name.present? }
+	
 	before_save :set_keywords
 	belongs_to :genre
 	
@@ -18,6 +19,8 @@ class Book < ActiveRecord::Base
 	def set_keywords
 		self.keyword = [title, author, description].map(&:downcase).join('')
 	end
+
+	
 
 
 end
