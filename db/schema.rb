@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140930121442) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "book_genres", force: true do |t|
     t.integer  "book_id"
     t.integer  "genre_id"
@@ -20,8 +23,8 @@ ActiveRecord::Schema.define(version: 20140930121442) do
     t.datetime "updated_at"
   end
 
-  add_index "book_genres", ["book_id"], name: "index_book_genres_on_book_id"
-  add_index "book_genres", ["genre_id"], name: "index_book_genres_on_genre_id"
+  add_index "book_genres", ["book_id"], name: "index_book_genres_on_book_id", using: :btree
+  add_index "book_genres", ["genre_id"], name: "index_book_genres_on_genre_id", using: :btree
 
   create_table "books", force: true do |t|
     t.string   "title"
